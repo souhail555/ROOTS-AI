@@ -1,6 +1,7 @@
 from django.urls import path
-from core.views import home
+from core.views import home, register
 
 urlpatterns = [
-    path('api/', home),
+    path('', home),                 # GET /api/
+    path('register/', register),   # POST /api/register/
 ]

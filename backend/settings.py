@@ -120,3 +120,16 @@ STATIC_URL = 'static/'
 # CORS
 # ======================
 CORS_ALLOW_ALL_ORIGINS = True
+# ======================
+# Django REST Framework
+# ======================
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+# ======================
+# Custom User Model
+# ======================
+AUTH_USER_MODEL = 'core.User'
