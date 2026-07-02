@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import api from "../api/axios";
 
 export default {
   data() {
@@ -26,14 +26,13 @@ export default {
   methods: {
     async register() {
       try {
-        await axios.post("http://127.0.0.1:8000/api/register/", {
+        await api.post("register/", {
           username: this.username,
           password: this.password,
           role: "participant",
         });
 
         this.message = "User created successfully";
-
       } catch (err) {
         this.message = "Error creating user";
       }
