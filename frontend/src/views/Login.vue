@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="p-6">
+
     <h2>Login</h2>
 
     <input v-model="username" placeholder="username" />
@@ -11,31 +12,55 @@
       No account?
       <router-link to="/register">Register</router-link>
     </p>
+
   </div>
 </template>
 
 <script>
-import api from "../api/axios";
+import axios from "axios"
 
 export default {
   data() {
     return {
       username: "",
-      password: "",
-    };
+      password: ""
+    }
   },
 
   methods: {
+
     async login() {
-      const res = await api.post("token/", {
-        username: this.username,
-        password: this.password,
-      });
 
-      localStorage.setItem("token", res.data.access);
+      try {
 
-      this.$router.push("/dashboard");
-    },
-  },
-};
+        const res = await axios.post(
+          "http://127.0.0.1:8000/api/token/",
+          {
+            username: this.username,
+            password: this.password
+          }
+        )
+
+        console.log("LOGIN SUCCESS:", res.data)
+
+        // save token
+        localStorage.setItem("token", res.data.access)
+
+        alert("Login successful!")
+
+        this.$router.push("/dashboard")
+
+      } catch (error) {
+
+        console.log("LOGIN ERROR FULL:", error)
+        console.log("DETAIL:", error.response?.data)
+
+        alert("Login failed - check console")
+
+      }
+
+    }
+
+  }
+}
 </script>
