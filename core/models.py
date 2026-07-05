@@ -24,4 +24,12 @@ class Project(models.Model):
 
     def __str__(self):
         return self.name
-    
+
+
+class Car(models.Model):
+    project = models.ForeignKey(Project, related_name='cars', on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    car_type = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"{self.name} ({self.car_type})"

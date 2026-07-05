@@ -1,4 +1,5 @@
-from django.urls import path, include
+from pathlib import Path
+text = '''from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import CarViewSet, ProjectViewSet
 from .views_auth import RegisterView
@@ -11,3 +12,6 @@ urlpatterns = [
     path('', include(router.urls)),
     path('register/', RegisterView.as_view(), name='register'),
 ]
+'''
+Path('core/urls.py').write_text(text, encoding='utf-8')
+print('OK')
