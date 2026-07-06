@@ -40,18 +40,26 @@
 
 <script>
 export default {
+  data() {
+    return {
+      currentUser: localStorage.getItem("username"),
+    };
+  },
   computed: {
     showShell() {
       return this.$route.path !== "/" && this.$route.path !== "/register";
     },
-    currentUser() {
-      return localStorage.getItem("username");
+  },
+  watch: {
+    $route() {
+      this.currentUser = localStorage.getItem("username");
     },
   },
   methods: {
     logout() {
       localStorage.removeItem("token");
       localStorage.removeItem("username");
+      this.currentUser = null;
       this.$router.push("/");
     },
   },
