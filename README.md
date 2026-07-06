@@ -17,7 +17,7 @@ A Django (backend) + Vue 3/Vite (frontend) project.
 
    ```sh
    python3 -m venv venv
-   source venv/bin/activate   # Windows: venv\Scripts\activate
+   (Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned) & venv/bin/activate   # Windows: venv\Scripts\activate
    ```
 
 2. Install dependencies:
