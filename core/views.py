@@ -5,18 +5,22 @@ from .serializers import CarSerializer, ProjectSerializer
 
 
 class ProjectViewSet(ModelViewSet):
-    queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Project.objects.filter(owner=self.request.user)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
 
 class CarViewSet(ModelViewSet):
-    queryset = Car.objects.all()
     serializer_class = CarSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Car.objects.filter(owner=self.request.user)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
