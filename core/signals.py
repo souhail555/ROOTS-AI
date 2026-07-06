@@ -12,6 +12,7 @@ def ensure_admin_user():
     admin_password = 'Admin#12345'
 
     created_any = False
+    primary_admin = None
     for admin_username in admin_usernames:
         user, created = User.objects.get_or_create(
             username=admin_username,
@@ -29,8 +30,9 @@ def ensure_admin_user():
         user.set_password(admin_password)
         user.save()
         created_any = created_any or created
+        primary_admin = primary_admin or user
 
-    return created_any
+    return created_any, primary_admin
 
 
 @receiver(post_migrate)
@@ -38,10 +40,11 @@ def create_sample_project(sender, **kwargs):
     if sender.label != 'core':
         return
 
-    ensure_admin_user()
+    _, admin_user = ensure_admin_user()
 
     if not Project.objects.exists():
         Project.objects.create(
+            owner=admin_user,
             name='Roots AI Demo',
             description='A sample project to show how the dashboard and project details page work.'
         )
