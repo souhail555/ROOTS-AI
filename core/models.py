@@ -19,6 +19,12 @@ class User(AbstractUser):
 
 
 class Project(models.Model):
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='projects'
+    )
+
     name = models.CharField(max_length=255)
     description = models.TextField()
 
@@ -27,9 +33,21 @@ class Project(models.Model):
 
 
 class Car(models.Model):
-    project = models.ForeignKey(Project, related_name='cars', on_delete=models.CASCADE)
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='cars'
+    )
+
+    project = models.ForeignKey(
+        Project,
+        related_name='cars',
+        on_delete=models.CASCADE
+    )
+
     name = models.CharField(max_length=255)
     car_type = models.CharField(max_length=255)
 
     def __str__(self):
         return f"{self.name} ({self.car_type})"
+    
