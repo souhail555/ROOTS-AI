@@ -122,7 +122,7 @@ export default {
         this.$router.push("/dashboard");
       } catch (err) {
         console.error("Login failed:", err);
-        this.error = err.response?.data?.detail || "Invalid credentials";
+        this.error = err.response?.data?.detail || "Cannot reach server. Please make sure backend is running.";
       } finally {
         this.loading = false;
       }

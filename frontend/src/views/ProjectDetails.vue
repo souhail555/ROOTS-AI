@@ -28,7 +28,14 @@
         </div>
         <div>
           <label class="mb-1.5 block text-sm font-medium text-slate-700">Car type</label>
-          <input v-model="newCar.car_type" required placeholder="Enter car type" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100" />
+          <select
+            v-model="newCar.car_type"
+            required
+            class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100"
+          >
+            <option value="" disabled>Select car type</option>
+            <option v-for="type in carTypes" :key="type" :value="type">{{ type }}</option>
+          </select>
         </div>
         <div class="flex items-end">
           <button type="submit" class="w-full rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700">
@@ -78,6 +85,7 @@ export default {
         name: "",
         car_type: "",
       },
+      carTypes: ["Toyota", "Mitsubishi", "Proton", "Honda", "Nissan", "Mazda"],
     };
   },
   mounted() {

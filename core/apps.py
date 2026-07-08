@@ -7,10 +7,11 @@ class CoreConfig(AppConfig):
 
     def ready(self):
         from django.db.models.signals import post_migrate
-        from .signals import create_sample_project, ensure_admin_user
+        from .signals import create_sample_project
 
-        post_migrate.connect(create_sample_project, sender=self)
-        try:
-            ensure_admin_user()
-        except Exception:
-            pass
+        # Keep DB writes inside post_migrate handlers, not app startup.
+        post_migrate.connect(
+            create_sample_project,
+            sender=self,
+            dispatch_uid='core.create_sample_project',
+        )

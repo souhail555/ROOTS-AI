@@ -1,3 +1,5 @@
+import os
+
 from django.contrib.auth import get_user_model
 from django.db.models.signals import post_migrate
 from django.dispatch import receiver
@@ -7,9 +9,10 @@ from .models import Project
 
 def ensure_admin_user():
     User = get_user_model()
-    admin_usernames = ['Admin', 'admin']
-    admin_email = 'souhail.aidi6@gmail.com'
-    admin_password = 'Admin#12345'
+    usernames_raw = os.getenv('ROOTS_ADMIN_USERNAMES', 'Admin,admin')
+    admin_usernames = [u.strip() for u in usernames_raw.split(',') if u.strip()]
+    admin_email = os.getenv('ROOTS_ADMIN_EMAIL', 'souhail.aidi6@gmail.com')
+    admin_password = os.getenv('ROOTS_ADMIN_PASSWORD', 'Admin#12345')
 
     created_any = False
     primary_admin = None

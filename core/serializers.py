@@ -18,6 +18,8 @@ class RegisterSerializer(serializers.ModelSerializer):
             password=validated_data['password'],
             role=validated_data.get('role', 'participant')
         )
+
+
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
@@ -26,6 +28,20 @@ class ProjectSerializer(serializers.ModelSerializer):
 
 
 class CarSerializer(serializers.ModelSerializer):
+    def validate_project(self, project):
+        request = self.context.get('request')
+        if not request or not request.user.is_authenticated:
+            return project
+
+        user = request.user
+        is_admin = user.is_superuser or user.is_staff or getattr(user, 'role', None) == 'admin'
+        if is_admin:
+            return project
+
+        if project.owner_id != user.id:
+            raise serializers.ValidationError('You can only add cars to your own projects.')
+        return project
+
     class Meta:
         model = Car
         fields = '__all__'
